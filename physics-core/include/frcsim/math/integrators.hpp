@@ -43,25 +43,16 @@ struct Integrator {
     // Quaternion derivative:
     //   q_dot = 0.5 * omega_quat * q
     // where omega_quat = (0, wx, wy, wz)
-
     static inline void integrateAngular(
         Quaternion& orientation,
         const Vector3& angularVelocity,
         double dt
     ) noexcept
     {
-        Quaternion omegaQuat(
-            0.0,
-            angularVelocity.x,
-            angularVelocity.y,
-            angularVelocity.z
-        );
-
+        Quaternion omegaQuat(0.0, angularVelocity.x, angularVelocity.y, angularVelocity.z);
         Quaternion dq = omegaQuat * orientation * 0.5;
-
         orientation = orientation + dq * dt;
-
-        orientation.normalize();
+        orientation.normalizeIfNeeded();
     }
 
     // Angular Velocity Integration: omega += alpha * dt
