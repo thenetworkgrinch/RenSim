@@ -40,11 +40,26 @@ struct alignas(16) Vector3 {
     constexpr bool operator!=(const Vector3& o) const noexcept { return !(*this == o); }
 
     // Norms
-    double norm() const noexcept { return std::sqrt(x * x + y * y + z * z); }
     constexpr double norm2() const noexcept { return x * x + y * y + z * z; }
+    double norm() const noexcept { return std::sqrt(norm2()); }
     Vector3 normalized() const noexcept {
         double n = norm();
         return (n > std::numeric_limits<double>::epsilon()) ? (*this) / n : Vector3{};
+    }
+    constexpr bool isZero(double eps = 1e-12) const noexcept { return norm2() < eps * eps; }
+    bool hasNaN() const noexcept { return std::isnan(x) || std::isnan(y) || std::isnan(z); }
+    static Vector3 fromArray(const double arr[3]) noexcept { return Vector3(arr[0], arr[1], arr[2]); }
+    void toArray(double arr[3]) const noexcept { arr[0]=x; arr[1]=y; arr[2]=z; }
+    static double distance(const Vector3& a, const Vector3& b) noexcept { return (a-b).norm(); }
+    Vector3 clamp(const Vector3& min, const Vector3& max) const noexcept {
+        return Vector3(
+            std::max(min.x, std::min(x, max.x)),
+            std::max(min.y, std::min(y, max.y)),
+            std::max(min.z, std::min(z, max.z))
+        );
+    }
+    static Vector3 lerp(const Vector3& a, const Vector3& b, double t) noexcept {
+        return a * (1.0 - t) + b * t;
     }
 
     // Dot and cross products
@@ -54,8 +69,8 @@ struct alignas(16) Vector3 {
     }
 
     // Planar helpers
-    double planarSpeed() const noexcept { return std::sqrt(x * x + y * y); }
-    Vector3 xy() const noexcept { return {x, y, 0.0}; }
+    constexpr double planarSpeed() const noexcept { return std::sqrt(x * x + y * y); }
+    constexpr Vector3 xy() const noexcept { return {x, y, 0.0}; }
     Vector3 planarDir() const noexcept {
         double mag = planarSpeed();
         return (mag > std::numeric_limits<double>::epsilon()) ? Vector3{x / mag, y / mag, 0.0} : Vector3{};
@@ -79,49 +94,80 @@ struct alignas(16) Vector3 {
     }
 
     // Magnus force (omega x v)
-    static Vector3 magnusForce(const Vector3& v, const Vector3& omega, double k = 1e-4) noexcept {
-        return omega.cross(v) * k;
-    }
-    // Instance Magnus force (for legacy API)
-    Vector3 magnusForce(double spinRate, double spinCoeff=1e-4) const noexcept {
-        return cross({0,0,spinRate}) * spinCoeff;
+    // velocity: linear velocity (m/s), omega: angular velocity (rad/s), k: Magnus coefficient (SI)
+    static Vector3 magnusForce(const Vector3& velocity, const Vector3& omega, double k = 1e-4) noexcept {
+        return omega.cross(velocity) * k;
     }
 
     // Drag force (-1/2 * rho * Cd * A * |v|^2 * v_hat)
+    // v: velocity (m/s), Cd: drag coefficient, A: area (m^2), rho: air density (kg/m^3)
     static Vector3 dragForce(const Vector3& v, double Cd, double A, double rho = 1.225) noexcept {
         double speed = v.norm();
         if (speed < std::numeric_limits<double>::epsilon()) return Vector3{};
         return v.normalized() * (-0.5 * rho * Cd * A * speed * speed);
     }
-    // Instance drag force (for legacy API)
-    Vector3 dragForce(double airDensity, double dragCoeff, double area) const noexcept {
-        double v = norm();
-        if(v < std::numeric_limits<double>::epsilon()) return Vector3{};
-        double f = 0.5*airDensity*dragCoeff*area*v*v;
-        return (*this)*(-f/v);
+
+    // Dynamic gravity (optionally with Magnus effect)
+    // velocity: object velocity (m/s), spin: angular velocity (rad/s), g: gravity (m/s^2), magnusCoeff: Magnus effect, gravityEffect: multiplier
+    static Vector3 dynamicGravity(const Vector3& velocity, const Vector3& spin, double g = 9.81, double magnusCoeff = 1e-4, double gravityEffect = 1.0) noexcept {
+        Vector3 magnus = magnusForce(velocity, spin, magnusCoeff);
+        return Vector3(0.0, 0.0, -g * gravityEffect) + magnus;
     }
 
-    // Dynamic gravity (with optional Magnus effect)
-    static Vector3 dynamicGravity(double g = 9.81, const Vector3& omega = Vector3{}, double magnusCoeff = 1e-4) noexcept {
-        return Vector3(0.0, 0.0, -g) + omega * magnusCoeff;
-    }
-    // Instance dynamic gravity (for legacy API)
-    Vector3 dynamicGravity(double baseG=9.81, const Vector3& spin=Vector3{}, double magnusCoeff=1e-4) const noexcept {
-        Vector3 magnus = cross(spin, *this) * magnusCoeff;
-        return {0, 0, -baseG} + magnus;
-    }
 
     // Zero vector constant
     static constexpr Vector3 zero() noexcept { return Vector3(0.0, 0.0, 0.0); }
 
-    // Element access
-    double& operator[](size_t i) { assert(i < 3); return i == 0 ? x : i == 1 ? y : z; }
-    const double& operator[](size_t i) const { assert(i < 3); return i == 0 ? x : i == 1 ? y : z; }
+    // Negation
+    constexpr Vector3 operator-() const noexcept { return Vector3(-x, -y, -z); }
+
+
+    // Linear interpolation (lerp)
+    static Vector3 lerp(const Vector3& a, const Vector3& b, double t) noexcept {
+        return a * (1.0 - t) + b * t;
+    }
+
+    // Distance between two vectors
+    static double distance(const Vector3& a, const Vector3& b) noexcept { return (a - b).norm(); }
+
+    // Clamp each component between min and max
+    Vector3 clamp(const Vector3& min, const Vector3& max) const noexcept {
+        return Vector3(
+            std::max(min.x, std::min(x, max.x)),
+            std::max(min.y, std::min(y, max.y)),
+            std::max(min.z, std::min(z, max.z))
+        );
+    }
+
+    // Convert to/from array
+    static Vector3 fromArray(const double arr[3]) noexcept { return Vector3(arr[0], arr[1], arr[2]); }
+    void toArray(double arr[3]) const noexcept { arr[0] = x; arr[1] = y; arr[2] = z; }
+
+    // Check for NaN
+    bool hasNaN() const noexcept { return std::isnan(x) || std::isnan(y) || std::isnan(z); }
+
+    // Check if zero vector
+    constexpr bool isZero(double eps = 1e-12) const noexcept { return norm2() < eps * eps; }
+
+    // Element access (asserts in debug, undefined in release if out-of-bounds)
+    double& operator[](size_t i) { assert(i < 3 && "Vector3 index out of bounds"); return i == 0 ? x : i == 1 ? y : z; }
+    const double& operator[](size_t i) const { assert(i < 3 && "Vector3 index out of bounds"); return i == 0 ? x : i == 1 ? y : z; }
 
     // Output stream
     friend std::ostream& operator<<(std::ostream& os, const Vector3& v) {
         os << std::fixed << std::setprecision(4) << "[" << v.x << ", " << v.y << ", " << v.z << "]";
         return os;
+    }
+
+    // Unit vectors
+    static constexpr Vector3 unitX() noexcept { return Vector3(1.0, 0.0, 0.0); }
+    static constexpr Vector3 unitY() noexcept { return Vector3(0.0, 1.0, 0.0); }
+    static constexpr Vector3 unitZ() noexcept { return Vector3(0.0, 0.0, 1.0); }
+
+    // Traction/grip (friction force)
+    // normal: surface normal (should be normalized), frictionCoeff: coefficient of friction, normalForce: magnitude of normal force
+    static Vector3 tractionForce(const Vector3& normal, double frictionCoeff, double normalForce) noexcept {
+        return normal * (frictionCoeff * normalForce);
     }
 };
 
