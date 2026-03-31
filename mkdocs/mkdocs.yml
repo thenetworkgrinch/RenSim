@@ -37,9 +37,7 @@ theme:
     - header.autohide
 
 nav:
-  - Home: docs/index.md
-  - GitHub Workflows: ../mkdocs/github-workflows.md
-  - GitHub Workflows: github-workflows.md
+  - Home: index.md
 
 plugins:
   - search
