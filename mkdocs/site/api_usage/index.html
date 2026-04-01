@@ -77,6 +77,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#api-usage" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -290,6 +295,26 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Usage
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -307,6 +332,80 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C++
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#java" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Java
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-pages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Pages
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -521,6 +620,71 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C++
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#java" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Java
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-pages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Pages
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -545,9 +709,52 @@
   
 
 
-  <h1>API Usage</h1>
-
-
+<h1 id="api-usage">API Usage<a class="headerlink" href="#api-usage" title="Permanent link">&para;</a></h1>
+<p>This page describes the primary usage patterns for RemSim in C++, Python, and Java.</p>
+<h2 id="c">C++<a class="headerlink" href="#c" title="Permanent link">&para;</a></h2>
+<p>Use the C++ examples as the reference entry point:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// See examples/cpp/minimal_world.cpp for a complete runnable setup.</span>
+</code></pre></div>
+<p>Typical flow:</p>
+<ul>
+<li>Create a physics world.</li>
+<li>Add rigid bodies and configure mass/inertia.</li>
+<li>Apply forces (gravity, springs, motors, or custom force generators).</li>
+<li>Step the world using a fixed timestep.</li>
+</ul>
+<h2 id="python">Python<a class="headerlink" href="#python" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>frcsim-physics
+python<span class="w"> </span>examples/python/simple_world_demo.py
+</code></pre></div>
+<p>Typical flow:</p>
+<ul>
+<li>Import bindings and create a simulation world.</li>
+<li>Configure bodies and environment.</li>
+<li>Step simulation in a loop and read back state.</li>
+</ul>
+<h2 id="java">Java<a class="headerlink" href="#java" title="Permanent link">&para;</a></h2>
+<p>Use the Java example as the reference entry point:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// See examples/java/ShooterPredictionExample.java for usage.</span>
+</code></pre></div>
+<p>Typical flow:</p>
+<ul>
+<li>Create physics objects through Java bindings.</li>
+<li>Configure system parameters.</li>
+<li>Step simulation and consume state for robot logic.</li>
+</ul>
+<h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Use a fixed timestep for deterministic behavior.</li>
+<li>Keep units consistent (SI recommended).</li>
+<li>Validate with tests before tuning coefficients.</li>
+<li>Prefer explicit force models over ad-hoc state edits.</li>
+</ul>
+<h2 id="related-pages">Related Pages<a class="headerlink" href="#related-pages" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../architecture/">Architecture</a></li>
+<li><a href="../physics_reference/">Physics Reference</a></li>
+<li><a href="../integrators/">Integrators</a></li>
+</ul>
 
 
 

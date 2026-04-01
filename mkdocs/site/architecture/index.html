@@ -77,6 +77,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#architecture" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -317,6 +322,26 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -334,6 +359,80 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#high-level-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High-Level Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#physics-core-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physics Core Design
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-and-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build and Test
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation Strategy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-pages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Pages
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -521,6 +620,71 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#high-level-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High-Level Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#physics-core-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Physics Core Design
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-and-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build and Test
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation Strategy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-pages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Pages
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -545,9 +709,41 @@
   
 
 
-  <h1>Architecture</h1>
-
-
+<h1 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h1>
+<p>RemSim is organized as a modular monorepo with clear separation between core physics, bindings, runtime applications, and documentation.</p>
+<h2 id="high-level-structure">High-Level Structure<a class="headerlink" href="#high-level-structure" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>core/physics-core/</code>: C++ physics engine implementation.</li>
+<li><code>core/bindings-python/</code>: Python bindings.</li>
+<li><code>core/bindings-java/</code>: Java bindings.</li>
+<li><code>core/gamepiece-models/</code>: Gamepiece models for simulation.</li>
+<li><code>apps/sim-runtime/</code>: Runtime integration for robot simulation workflows.</li>
+<li><code>apps/viewer-plugin/</code>: Visualization and timeline tooling.</li>
+<li><code>examples/</code>: Language-specific examples.</li>
+<li><code>vendordep/tests/</code>: Unit and integration tests.</li>
+</ul>
+<h2 id="physics-core-design">Physics Core Design<a class="headerlink" href="#physics-core-design" title="Permanent link">&para;</a></h2>
+<p>Key components include:</p>
+<ul>
+<li>Math primitives: vectors, quaternions, matrices, and integrators.</li>
+<li>Rigid-body modeling and assemblies.</li>
+<li>Force generators and aerodynamic models.</li>
+<li>Physics world orchestration.</li>
+</ul>
+<p>The architecture is designed to support extension through additional force models, body types, and runtime integrations.</p>
+<h2 id="build-and-test">Build and Test<a class="headerlink" href="#build-and-test" title="Permanent link">&para;</a></h2>
+<ul>
+<li>CMake drives native builds.</li>
+<li>CTest executes test binaries.</li>
+<li>Helper scripts streamline configure/build/test workflows.</li>
+</ul>
+<h2 id="documentation-strategy">Documentation Strategy<a class="headerlink" href="#documentation-strategy" title="Permanent link">&para;</a></h2>
+<p>Documentation is authored in Markdown under <code>mkdocs/docs/</code> and published with MkDocs Material.</p>
+<h2 id="related-pages">Related Pages<a class="headerlink" href="#related-pages" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../api_usage/">API Usage</a></li>
+<li><a href="../physics_reference/">Physics Reference</a></li>
+</ul>
 
 
 

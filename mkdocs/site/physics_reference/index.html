@@ -77,6 +77,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#physics-reference" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -344,6 +349,26 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Physics Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -361,6 +386,91 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rigid-body-dynamics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rigid-Body Dynamics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rotation-representation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rotation Representation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forces
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#numerical-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Numerical Considerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current Scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-pages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Pages
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -521,6 +631,82 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rigid-body-dynamics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rigid-Body Dynamics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rotation-representation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rotation Representation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#forces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forces
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#numerical-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Numerical Considerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current Scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-pages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Pages
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -545,9 +731,43 @@
   
 
 
-  <h1>Physics Reference</h1>
-
-
+<h1 id="physics-reference">Physics Reference<a class="headerlink" href="#physics-reference" title="Permanent link">&para;</a></h1>
+<p>This page summarizes the physical models currently represented in RemSim.</p>
+<h2 id="rigid-body-dynamics">Rigid-Body Dynamics<a class="headerlink" href="#rigid-body-dynamics" title="Permanent link">&para;</a></h2>
+<p>Core rigid-body updates are based on Newton-Euler mechanics:</p>
+<p>$$
+\mathbf{F} = m\mathbf{a}, \qquad \boldsymbol{\tau} = \mathbf{I}\boldsymbol{\alpha}
+$$</p>
+<p>Linear and angular state are integrated per timestep using methods documented in <a href="../integrators/">Integrators</a>.</p>
+<h2 id="rotation-representation">Rotation Representation<a class="headerlink" href="#rotation-representation" title="Permanent link">&para;</a></h2>
+<p>Orientations are represented with quaternions to avoid gimbal lock and improve numerical stability.</p>
+<p>Quaternion state updates follow:</p>
+<p>$$
+\dot{q} = \frac{1}{2}\,\omega_q\,q
+$$</p>
+<p>See <a href="../quaternion/">Quaternion</a> for API details.</p>
+<h2 id="forces">Forces<a class="headerlink" href="#forces" title="Permanent link">&para;</a></h2>
+<p>RemSim supports force models including:</p>
+<ul>
+<li>Gravity</li>
+<li>Springs</li>
+<li>Motors/actuators</li>
+<li>Aerodynamic terms (drag, Magnus effect)</li>
+</ul>
+<h2 id="numerical-considerations">Numerical Considerations<a class="headerlink" href="#numerical-considerations" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Use fixed timestep simulation where possible.</li>
+<li>Select integration methods based on stability and performance requirements.</li>
+<li>Validate material and damping parameters against expected physical behavior.</li>
+</ul>
+<h2 id="current-scope">Current Scope<a class="headerlink" href="#current-scope" title="Permanent link">&para;</a></h2>
+<p>The engine is under active development. Some advanced subsystems are still being expanded.</p>
+<h2 id="related-pages">Related Pages<a class="headerlink" href="#related-pages" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../api_usage/">API Usage</a></li>
+<li><a href="../architecture/">Architecture</a></li>
+<li><a href="../integrators/">Integrators</a></li>
+</ul>
 
 
 
