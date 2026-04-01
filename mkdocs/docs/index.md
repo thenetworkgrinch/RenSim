@@ -1,18 +1,6 @@
+# RemSim
 
-# Untitled FRC Physics Library
-
-
-<!--
-<div align="center">
-  <img src="assets/images/logo.png" alt="FRC Physics Library Logo" width="200"/>
-</div>
--->
-
----
-
-## All-in-One FRC Physics & Simulation Platform
-
-This is the Untitled FRC Physics Library. This is a work-in-progress project.
+This is the RemSim Physics Library. This is a work-in-progress project.
 
 ### Key Features (will be implemented over time)
 - **Unified Physics Engine:**

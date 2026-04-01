@@ -1,4 +1,6 @@
-A Currently Untitled FRC Physics Library
+# RemSim Physics Library
+
+This is the RemSim Physics Library. This is a work-in-progress project.
 
 ## Monorepo Structure
 
