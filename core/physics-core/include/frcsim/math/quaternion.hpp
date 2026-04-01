@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include <algorithm>
 #include <cassert>
 #include "vector.hpp"
 
@@ -49,8 +50,9 @@ struct Quaternion {
     // To axis-angle
     void toAxisAngle(Vector3& axis, double& angleRad) const noexcept {
         Quaternion q = normalized();
+        q.w = std::clamp(q.w, -1.0, 1.0);
         angleRad = 2.0 * std::acos(q.w);
-        double s = std::sqrt(1.0 - q.w*q.w);
+        double s = std::sqrt(std::max(0.0, 1.0 - q.w*q.w));
         if (s < 1e-12) { axis = Vector3(1,0,0); }
         else { axis = Vector3(q.x/s, q.y/s, q.z/s); }
     }
@@ -127,9 +129,9 @@ struct Quaternion {
         return Vector3(res.x, res.y, res.z);
     }
 
-    [[nodiscard]] constexpr Vector3 forward() const noexcept { return rotate(Vector3(0,0,1)); }
-    [[nodiscard]] constexpr Vector3 up() const noexcept { return rotate(Vector3(0,1,0)); }
-    [[nodiscard]] constexpr Vector3 right() const noexcept { return rotate(Vector3(1,0,0)); }
+    [[nodiscard]] Vector3 forward() const noexcept { return rotate(Vector3(0,0,1)); }
+    [[nodiscard]] Vector3 up() const noexcept { return rotate(Vector3(0,1,0)); }
+    [[nodiscard]] Vector3 right() const noexcept { return rotate(Vector3(1,0,0)); }
 
     // No longer stores angular velocity; use Integrator for integration
 

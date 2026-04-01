@@ -6,6 +6,7 @@
 #include <iomanip>
 
 #include "vector.hpp"
+#include "quaternion.hpp"
 
 namespace frcsim {
 

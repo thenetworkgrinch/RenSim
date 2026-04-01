@@ -1,6 +1,7 @@
 
 #pragma once
 #include <cmath>
+#include <algorithm>
 #include <iostream>
 #include <cassert>
 #include <limits>
@@ -121,33 +122,6 @@ struct alignas(16) Vector3 {
     // Negation
     constexpr Vector3 operator-() const noexcept { return Vector3(-x, -y, -z); }
 
-
-    // Linear interpolation (lerp)
-    static Vector3 lerp(const Vector3& a, const Vector3& b, double t) noexcept {
-        return a * (1.0 - t) + b * t;
-    }
-
-    // Distance between two vectors
-    static double distance(const Vector3& a, const Vector3& b) noexcept { return (a - b).norm(); }
-
-    // Clamp each component between min and max
-    Vector3 clamp(const Vector3& min, const Vector3& max) const noexcept {
-        return Vector3(
-            std::max(min.x, std::min(x, max.x)),
-            std::max(min.y, std::min(y, max.y)),
-            std::max(min.z, std::min(z, max.z))
-        );
-    }
-
-    // Convert to/from array
-    static Vector3 fromArray(const double arr[3]) noexcept { return Vector3(arr[0], arr[1], arr[2]); }
-    void toArray(double arr[3]) const noexcept { arr[0] = x; arr[1] = y; arr[2] = z; }
-
-    // Check for NaN
-    bool hasNaN() const noexcept { return std::isnan(x) || std::isnan(y) || std::isnan(z); }
-
-    // Check if zero vector
-    constexpr bool isZero(double eps = 1e-12) const noexcept { return norm2() < eps * eps; }
 
     // Element access (asserts in debug, undefined in release if out-of-bounds)
     double& operator[](size_t i) { assert(i < 3 && "Vector3 index out of bounds"); return i == 0 ? x : i == 1 ? y : z; }
