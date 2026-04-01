@@ -2,18 +2,20 @@ A Currently Untitled FRC Physics Library
 
 ## Monorepo Structure
 
-This repository is organized as a monorepo:
+This repository is organized as a monorepo.
 
-- **examples/**: Contains example projects, each in its own language-specific subfolder (e.g., `cpp/`, `java/`, `python/`).
-- **physics-core/**: Core C++ physics engine source code.
-- **bindings-java/**: Java bindings for the physics engine.
-- **bindings-python/**: Python bindings for the physics engine.
-- **cad-import/**: CAD import utilities and scripts.
-- **sim-runtime/**: Python simulation runtime and robot interface code.
-- **viewer-plugin/**: Visualization and rendering plugins.
-- **gamepiece-models/**: C++ models for FRC game pieces.
-- **vendordep/**: Reserved for vendordep generator code and related files (currently empty).
+- **core/**
+	- **core/physics-core/**: Core C++ physics engine source code.
+	- **core/bindings-java/**: Java bindings for the physics engine.
+	- **core/bindings-python/**: Python bindings for the physics engine.
+	- **core/gamepiece-models/**: C++ gamepiece models used by the simulation core (season-specific models may be split later if needed).
+- **apps/**
+	- **apps/sim-runtime/**: Separate Python runtime application that integrates the engine with robot-side simulation workflows.
+	- **apps/viewer-plugin/**: Separate visualization/rendering application plugin for simulation output.
+- **examples/**: Example projects in language-specific subfolders (e.g., `cpp/`, `java/`, `python/`).
 - **docs/** and **mkdocs/**: Documentation sources and site generator config.
-- **tests/**: C++ unit and integration tests.
+- **vendordep/**: Reserved for vendordep generator code and related files.
+- **vendordep/tests/**: Unit and integration tests.
+- **cad-import/**: CAD import utilities and scripts; this can be split into its own repository later if it remains loosely coupled to the core.
 
-All source code is kept in its own dedicated folder. Example projects are separated by language and purpose. Any vendordep generator code should be placed under `/vendordep`.
+All source code is kept in dedicated folders by responsibility.
